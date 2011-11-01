@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sslc", "sslc.vcproj", "{0EC114D1-14AD-447E-88EF-ED37F6F258F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug (for Fallout1)|Win32 = Debug (for Fallout1)|Win32
+		Debug|Win32 = Debug|Win32
+		Release (for Fallout1)|Win32 = Release (for Fallout1)|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0EC114D1-14AD-447E-88EF-ED37F6F258F0}.Debug (for Fallout1)|Win32.ActiveCfg = Debug (for Fallout1)|Win32
+		{0EC114D1-14AD-447E-88EF-ED37F6F258F0}.Debug (for Fallout1)|Win32.Build.0 = Debug (for Fallout1)|Win32
+		{0EC114D1-14AD-447E-88EF-ED37F6F258F0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0EC114D1-14AD-447E-88EF-ED37F6F258F0}.Debug|Win32.Build.0 = Debug|Win32
+		{0EC114D1-14AD-447E-88EF-ED37F6F258F0}.Release (for Fallout1)|Win32.ActiveCfg = Release (for Fallout1)|Win32
+		{0EC114D1-14AD-447E-88EF-ED37F6F258F0}.Release (for Fallout1)|Win32.Build.0 = Release (for Fallout1)|Win32
+		{0EC114D1-14AD-447E-88EF-ED37F6F258F0}.Release|Win32.ActiveCfg = Release|Win32
+		{0EC114D1-14AD-447E-88EF-ED37F6F258F0}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
