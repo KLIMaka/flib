@@ -362,7 +362,7 @@ public class Prototype
         m_fields.put("dmgType", din.readInt());
         m_fields.put("maxRange1", din.readInt());
         m_fields.put("maxRange2", din.readInt());
-        m_fields.put("projFID", din.readInt());
+        m_fields.put("projPID", din.readInt());
         m_fields.put("minST", din.readInt());
         m_fields.put("apCost1", din.readInt());
         m_fields.put("apCost2", din.readInt());
