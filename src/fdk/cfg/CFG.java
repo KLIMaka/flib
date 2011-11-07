@@ -44,25 +44,19 @@ import fdk.util.Utils;
  * @author KLIMaka
  * 
  */
-public class CFG
-{
+public class CFG {
 
     private Map<String, ArrayList<CFGEntry>> m_config   = new TreeMap<String, ArrayList<CFGEntry>>(
                                                                 String.CASE_INSENSITIVE_ORDER);
     private ArrayList<String>                m_catOrder = new ArrayList<String>();
 
-    public CFG(InputStream in) throws IOException
-    {
+    public CFG(InputStream in) throws IOException {
         read(in);
     }
 
-    public CFG()
-    {
-    }
+    public CFG() {}
 
-    public void read(InputStream in) throws FileNotFoundException,
-            IOException
-    {
+    public void read(InputStream in) throws FileNotFoundException, IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Utils.copyStrream(in, out);
         ByteBuffer buf = ByteBuffer.wrap(out.toByteArray());
@@ -73,50 +67,37 @@ public class CFG
         Matcher m = p.matcher(cb);
 
         String category = "";
-        while (m.find())
-        {
-            if (m.group(1) != null)
-            {
+        while (m.find()) {
+            if (m.group(1) != null) {
                 category = m.group(6);
                 String precomment = m.group(2);
                 String postcomment = m.group(8);
-                getCategory(category).add(
-                        new CFGEntry(category, "@head", "", precomment,
-                                postcomment,
-                                false));
-            }
-            else
-            {
+                getCategory(category).add(new CFGEntry(category, "@head", "", precomment, postcomment, false));
+            } else {
                 String precomment = m.group(10);
                 String name = m.group(14).trim();
                 String val = m.group(15).trim();
                 String postcomment = m.group(17);
                 boolean enabled = true;
-                if (name.startsWith(";"))
-                {
+                if (name.startsWith(";")) {
                     name = name.substring(1);
                     enabled = false;
                 }
 
-                getCategory(category).add(
-                        new CFGEntry(category, name, val, precomment,
-                                postcomment, enabled));
+                getCategory(category).add(new CFGEntry(category, name, val, precomment, postcomment, enabled));
             }
         }
 
     }
 
-    public void clear()
-    {
+    public void clear() {
         m_config.clear();
         m_catOrder.clear();
     }
 
-    public Collection<CFGEntry> getCategory(String cat)
-    {
+    public Collection<CFGEntry> getCategory(String cat) {
         ArrayList<CFGEntry> category = m_config.get(cat);
-        if (category == null)
-        {
+        if (category == null) {
             m_catOrder.add(cat);
             category = new ArrayList<CFGEntry>();
             m_config.put(cat, category);
@@ -124,110 +105,80 @@ public class CFG
         return category;
     }
 
-    public CFGEntry get(String cat, String param)
-    {
-        for (CFGEntry ent : getCategory(cat))
-        {
-            if (ent.getName().equalsIgnoreCase(param))
-                return ent;
+    public CFGEntry get(String cat, String param) {
+        for (CFGEntry ent : getCategory(cat)) {
+            if (ent.getName().equalsIgnoreCase(param)) return ent;
         }
         return null;
     }
 
-    public CFGEntry get(String param)
-    {
+    public CFGEntry get(String param) {
         String parts[] = param.split("\\.");
-        if (parts.length == 2)
-        {
+        if (parts.length == 2) {
             return get(parts[0], parts[1]);
-        }
-        else
-        {
-            for (Collection<CFGEntry> cat : m_config.values())
-            {
-                for (CFGEntry ent : cat)
-                {
-                    if (ent.getName().equalsIgnoreCase(param))
-                        return ent;
+        } else {
+            for (Collection<CFGEntry> cat : m_config.values()) {
+                for (CFGEntry ent : cat) {
+                    if (ent.getName().equalsIgnoreCase(param)) return ent;
                 }
             }
             return null;
         }
     }
 
-    public CFGEntry get(String param, boolean enabled)
-    {
+    public CFGEntry get(String param, boolean enabled) {
         CFGEntry ent = get(param);
-        if (ent.isEnabled() == enabled)
-        {
+        if (ent.isEnabled() == enabled) {
             return ent;
         }
         return null;
     }
 
-    public String getValue(String param)
-    {
+    public String getValue(String param) {
         CFGEntry ent = get(param, true);
-        if (ent != null)
-        {
+        if (ent != null) {
             return ent.getValue();
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
-    public void write(OutputStream out) throws IOException
-    {
+    public void write(OutputStream out) throws IOException {
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
-        for (String cat : m_catOrder)
-        {
+        for (String cat : m_catOrder) {
             CFGEntry head = get(cat, "@head");
-            if (head.getPrecomment() != null)
-            {
+            if (head.getPrecomment() != null) {
                 writer.write(head.getPrecomment());
-            }
-            else
-            {
+            } else {
                 writer.write("\r\n");
             }
             writer.write("[" + cat + "]");
-            if (head.getPostcomment() != null)
-            {
+            if (head.getPostcomment() != null) {
                 writer.write(" ;" + head.getPostcomment());
             }
             writer.write("\r\n");
 
-            for (CFGEntry ent : getCategory(cat))
-            {
-                if (ent.getName().equals("@head"))
-                    continue;
+            for (CFGEntry ent : getCategory(cat)) {
+                if (ent.getName().equals("@head")) continue;
 
-                if (ent.getPrecomment() != null)
-                {
+                if (ent.getPrecomment() != null) {
                     writer.write(ent.getPrecomment());
-                }
-                else
-                {
+                } else {
                     writer.write("\r\n");
                 }
                 writer.write(ent.isEnabled() ? "" : ";");
                 writer.write(ent.getName() + "=" + ent.getValue());
-                if (ent.getPostcomment() != null)
-                    writer.write(" ;" + ent.getPostcomment() + "\r\n");
+                if (ent.getPostcomment() != null) writer.write(" ;" + ent.getPostcomment() + "\r\n");
             }
         }
         writer.close();
     }
 
-    public Collection<String> getCategories()
-    {
+    public Collection<String> getCategories() {
         return m_catOrder;
     }
 
-    public void put(CFGEntry ent)
-    {
+    public void put(CFGEntry ent) {
         getCategory(ent.getCategory()).add(ent);
     }
 }

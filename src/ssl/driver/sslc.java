@@ -6,15 +6,13 @@ import org.anarres.cpp.CppReader;
 import org.anarres.cpp.Feature;
 import org.anarres.cpp.Preprocessor;
 
-public class sslc
-{
+public class sslc {
 
     /**
      * @param args
      * @throws Exception
      */
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
 
         // System.setOut(new PrintStream(System.out, true, System.getProperty(
         // "console.encoding", "Cp866")));

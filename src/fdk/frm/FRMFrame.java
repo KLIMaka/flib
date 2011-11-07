@@ -1,7 +1,6 @@
 package fdk.frm;
 
-public class FRMFrame
-{
+public class FRMFrame {
 
     private int   m_width;
     private int   m_height;
@@ -9,8 +8,7 @@ public class FRMFrame
     private short m_dy;
     private byte  m_data[];
 
-    public FRMFrame(int w, int h, byte[] data, short dx, short dy)
-    {
+    public FRMFrame(int w, int h, byte[] data, short dx, short dy) {
         m_width = w;
         m_height = h;
         m_data = data;
@@ -18,28 +16,23 @@ public class FRMFrame
         m_dy = dy;
     }
 
-    public int getWidth()
-    {
+    public int getWidth() {
         return m_width;
     }
 
-    public int getHeight()
-    {
+    public int getHeight() {
         return m_height;
     }
 
-    public byte[] getData()
-    {
+    public byte[] getData() {
         return m_data;
     }
 
-    public short getDx()
-    {
+    public short getDx() {
         return m_dx;
     }
 
-    public short getDy()
-    {
+    public short getDy() {
         return m_dy;
     }
 }

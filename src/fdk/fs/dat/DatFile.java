@@ -12,22 +12,19 @@ import fdk.fs.IFileSource;
 import fdk.util.LEDataStream;
 import fdk.util.Utils;
 
-public class DatFile implements IFileSource
-{
+public class DatFile implements IFileSource {
 
     private File             m_datFile;
     private RandomAccessFile m_data;
     private DatRoot          m_root = new DatRoot();
 
-    public DatFile(String name) throws IOException
-    {
+    public DatFile(String name) throws IOException {
         m_datFile = new File(name);
         m_data = new RandomAccessFile(m_datFile, "r");
         loadFileList();
     }
 
-    private void loadFileList() throws IOException
-    {
+    private void loadFileList() throws IOException {
 
         m_data.seek(m_data.length() - 8);
         int treeSize = Utils.toLittleEndian(m_data.readInt());
@@ -40,32 +37,23 @@ public class DatFile implements IFileSource
         LEDataStream data = new LEDataStream(new ByteArrayInputStream(buf));
         int files = data.readInt();
 
-        for (int i = 0; i < files; i++)
-        {
+        for (int i = 0; i < files; i++) {
             String name = data.readString(data.readInt());
             byte type = data.readByte();
             int real = data.readInt();
             int ps = data.readInt();
             int pos = data.readInt();
 
-            m_root.addNode(
-                    name,
-                    new DatFileInfo(name, type, real, ps, pos, this)
-                    );
+            m_root.addNode(name, new DatFileInfo(name, type, real, ps, pos, this));
         }
     }
 
-    public InputStream getFile(DatFileInfo file) throws IOException
-    {
-        if (file != null && file.getSource() == this)
-        {
+    public InputStream getFile(DatFileInfo file) throws IOException {
+        if (file != null && file.getSource() == this) {
 
-            if (file.getSize() == 0)
-                return new ByteArrayInputStream(new byte[0]);
+            if (file.getSize() == 0) return new ByteArrayInputStream(new byte[0]);
 
-            if (file.getPackedSize() == file.getRealSize()
-                    && file.getType() == 0)
-            {
+            if (file.getPackedSize() == file.getRealSize() && file.getType() == 0) {
                 m_data.seek(file.getOffset());
                 byte[] buf = new byte[file.getSize()];
                 m_data.read(buf);
@@ -75,8 +63,7 @@ public class DatFile implements IFileSource
             m_data.seek(file.getOffset());
             byte[] compressed = new byte[file.getPackedSize()];
             int readed = m_data.read(compressed);
-            if (readed != file.getPackedSize())
-            {
+            if (readed != file.getPackedSize()) {
                 return null;
             }
             return new InflaterInputStream(new ByteArrayInputStream(compressed));
@@ -86,11 +73,9 @@ public class DatFile implements IFileSource
     }
 
     @Override
-    public InputStream getFile(String fname) throws IOException
-    {
+    public InputStream getFile(String fname) throws IOException {
         DatNode node = m_root.getNode(fname);
-        if (node != null)
-        {
+        if (node != null) {
             return getFile(node.getFile());
         }
 
@@ -98,21 +83,16 @@ public class DatFile implements IFileSource
     }
 
     @Override
-    public InputStream getFile(IFileEntry fent) throws IOException
-    {
-        if (fent instanceof DatNode)
-        {
+    public InputStream getFile(IFileEntry fent) throws IOException {
+        if (fent instanceof DatNode) {
             return getFile(((DatNode) fent).getFile());
-        }
-        else
-        {
+        } else {
             return getFile(fent.getFullName());
         }
     }
 
     @Override
-    public IFileEntry getRoot()
-    {
+    public IFileEntry getRoot() {
         return m_root;
     }
 

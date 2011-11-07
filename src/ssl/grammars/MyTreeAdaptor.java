@@ -2,8 +2,7 @@ package ssl.grammars;
 
 import org.antlr.runtime.tree.CommonTreeAdaptor;
 
-public class MyTreeAdaptor extends CommonTreeAdaptor
-{
+public class MyTreeAdaptor extends CommonTreeAdaptor {
 
     // SSLParser m_parser = null;
     //

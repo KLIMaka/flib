@@ -1,10 +1,8 @@
 package fdk.fs.dat;
 
-public class DatRoot extends DatDir
-{
+public class DatRoot extends DatDir {
 
-    public DatRoot()
-    {
+    public DatRoot() {
         super("", null);
     }
 

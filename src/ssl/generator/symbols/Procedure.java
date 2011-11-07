@@ -11,8 +11,7 @@ import ssl.generator.namespace.Name;
 import ssl.generator.symbols.variables.Argument;
 import ssl.generator.symbols.variables.LocalVariable;
 
-public class Procedure extends UndefinedProcedure
-{
+public class Procedure extends UndefinedProcedure {
 
     private ArrayList<Symbol> m_SymbolTable = new ArrayList<Symbol>();
     private int               m_varIndex    = 0;
@@ -21,14 +20,12 @@ public class Procedure extends UndefinedProcedure
     private Script            m_script;
     private Node              m_locals;
 
-    public Procedure(Name name, Script parent, boolean crit)
-    {
+    public Procedure(Name name, Script parent, boolean crit) {
         super(name, Type.NONE, crit);
         m_script = parent;
     }
 
-    public void join(UndefinedProcedure proc)
-    {
+    public void join(UndefinedProcedure proc) {
         setCritical(proc.isCritical() || isCritical());
         setIndex(proc.getIndex());
         setNsName(proc.getNsName());
@@ -38,14 +35,12 @@ public class Procedure extends UndefinedProcedure
         m_argsCheck = false;
     }
 
-    protected int genNewVarIndex()
-    {
+    protected int genNewVarIndex() {
         return m_varIndex++;
     }
 
     @Override
-    public void setCode(Node code)
-    {
+    public void setCode(Node code) {
         super.setCode(code);
         m_locals = getCode().addBefore(new Node());
         m_locals.get().write(OP.PUSH_BASE);
@@ -55,20 +50,15 @@ public class Procedure extends UndefinedProcedure
         ret.get().write(OP.POP_RETURN);
     }
 
-    protected Symbol findSymbol(String name)
-    {
-        for (Symbol smb : m_SymbolTable)
-        {
-            if (smb.getName().equalsIgnoreCase(name))
-                return smb;
+    protected Symbol findSymbol(String name) {
+        for (Symbol smb : m_SymbolTable) {
+            if (smb.getName().equalsIgnoreCase(name)) return smb;
         }
         return null;
     }
 
-    protected Symbol addSymbol(Symbol smb) throws SemanticError
-    {
-        if (findSymbol(smb.getName()) == null)
-        {
+    protected Symbol addSymbol(Symbol smb) throws SemanticError {
+        if (findSymbol(smb.getName()) == null) {
             m_SymbolTable.add(smb);
             return smb;
         }
@@ -77,61 +67,46 @@ public class Procedure extends UndefinedProcedure
         return null;
     }
 
-    public LocalVariable addSymbol(LocalVariable var) throws SemanticError
-    {
+    public LocalVariable addSymbol(LocalVariable var) throws SemanticError {
         var.setIndex(genNewVarIndex());
-        if (m_argsCheck == false)
-            m_checkedArgs++;
-        if (!(var instanceof Argument))
-        {
+        if (m_argsCheck == false) m_checkedArgs++;
+        if (!(var instanceof Argument)) {
             var.getDefault().get(m_locals.get());
         }
         return (LocalVariable) addSymbol((Symbol) var);
     }
 
-    public Symbol getSymbol(String name) throws SemanticError
-    {
+    public Symbol getSymbol(String name) throws SemanticError {
         return findSymbol(name);
     }
 
-    public void checkArgs() throws SemanticError
-    {
-        if (m_argsCheck == true)
-            return;
+    public void checkArgs() throws SemanticError {
+        if (m_argsCheck == true) return;
 
-        if (m_checkedArgs == getNumArgs())
-        {
+        if (m_checkedArgs == getNumArgs()) {
             m_argsCheck = true;
-        }
-        else
-        {
-            m_script.error("Wrong number of arguments to procedure "
-                    + getName());
+        } else {
+            m_script.error("Wrong number of arguments to procedure " + getName());
         }
     }
 
-    public ByteStream getStream()
-    {
+    public ByteStream getStream() {
         return getCode().get();
     }
 
-    public void writeGet(Symbol smb)
-    {
+    public void writeGet(Symbol smb) {
         smb.get(getStream());
     }
 
-    public void writeSet(Symbol smb)
-    {
+    public void writeSet(Symbol smb) {
         smb.set(getStream());
     }
 
-    public void writeCall(Symbol smb, int args)
-    {
+    public void writeCall(Symbol smb, int args) {
         smb.call(getStream(), args);
     }
 
-    public void writeOP(short op)
-    {
+    public void writeOP(short op) {
         getStream().write(op);
     }
 

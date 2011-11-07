@@ -4,8 +4,7 @@ import ssl.codegen.ByteStream;
 import ssl.generator.OP;
 import ssl.generator.symbols.Symbol;
 
-public abstract class Variable extends Symbol
-{
+public abstract class Variable extends Symbol {
 
     protected abstract void writeSelf(ByteStream stream);
 
@@ -14,22 +13,19 @@ public abstract class Variable extends Symbol
     protected abstract void writeGet(ByteStream stream);
 
     @Override
-    public void get(ByteStream stream)
-    {
+    public void get(ByteStream stream) {
         writeSelf(stream);
         writeGet(stream);
     }
 
     @Override
-    public void set(ByteStream stream)
-    {
+    public void set(ByteStream stream) {
         writeSelf(stream);
         writeSet(stream);
     }
 
     @Override
-    public void call(ByteStream stream, int args)
-    {
+    public void call(ByteStream stream, int args) {
         stream.write(OP.INTOP);
         stream.write(args);
         get(stream);

@@ -1,7 +1,6 @@
 package fdk.msg;
 
-public class MsgEntry
-{
+public class MsgEntry {
 
     private int    m_number;
     private String m_sound;
@@ -9,8 +8,7 @@ public class MsgEntry
     private String m_preComment;
     private String m_postComment;
 
-    public MsgEntry(int number, String anim, String msg, String pre, String post)
-    {
+    public MsgEntry(int number, String anim, String msg, String pre, String post) {
         m_number = number;
         m_sound = anim;
         m_msg = msg;
@@ -18,46 +16,35 @@ public class MsgEntry
         m_postComment = post;
     }
 
-    public int getNumber()
-    {
+    public int getNumber() {
         return m_number;
     }
 
-    public String getSound()
-    {
-        if (m_sound != null)
-            return m_sound;
+    public String getSound() {
+        if (m_sound != null) return m_sound;
         return "";
     }
 
-    public String getMsg()
-    {
+    public String getMsg() {
         return m_msg;
     }
 
-    public String getPreComment()
-    {
-        if (m_preComment != null)
-            return m_preComment;
+    public String getPreComment() {
+        if (m_preComment != null) return m_preComment;
         return "";
     }
 
-    public String getPostComment()
-    {
-        if (m_postComment != null)
-            return m_postComment;
+    public String getPostComment() {
+        if (m_postComment != null) return m_postComment;
         return "";
     }
 
     @Override
-    public String toString()
-    {
-        return getPreComment() + "{" + getNumber() + "}{" + getSound() + "}{"
-                + getMsg() + "}" + getPostComment();
+    public String toString() {
+        return getPreComment() + "{" + getNumber() + "}{" + getSound() + "}{" + getMsg() + "}" + getPostComment();
     }
 
-    public void setMsg(String msg)
-    {
+    public void setMsg(String msg) {
         m_msg = msg;
     }
 }

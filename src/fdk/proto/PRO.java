@@ -3,8 +3,7 @@ package fdk.proto;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class PRO
-{
+public class PRO {
     public static final int             ITEM     = 0;
     public static final int             CRITTER  = 1;
     public static final int             SCENERY  = 2;
@@ -16,10 +15,8 @@ public class PRO
     static private Map<Integer, String> msgMap   = new TreeMap<Integer, String>();
     static private boolean              m_filled = false;
 
-    static private void fillMaps()
-    {
-        if (m_filled == true)
-            return;
+    static private void fillMaps() {
+        if (m_filled == true) return;
 
         lstMap.put(ITEM, "ITEMS");
         lstMap.put(CRITTER, "CRITTERS");
@@ -38,22 +35,19 @@ public class PRO
         m_filled = true;
     }
 
-    static public String getLst(int type)
-    {
+    static public String getLst(int type) {
         fillMaps();
         String t = lstMap.get(type);
         return "PROTO/" + t + "/" + t + ".LST";
     }
 
-    static public String getProDir(int type)
-    {
+    static public String getProDir(int type) {
         fillMaps();
         String t = lstMap.get(type);
         return "PROTO/" + t + "/";
     }
 
-    static public String getMsg(int type)
-    {
+    static public String getMsg(int type) {
         fillMaps();
         String t = msgMap.get(type);
         return "TEXT/ENGLISH/GAME/PRO_" + t + ".MSG";

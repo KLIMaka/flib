@@ -2,8 +2,7 @@ package fdk.fs.dat;
 
 import fdk.fs.IFileSource;
 
-public class DatFileInfo
-{
+public class DatFileInfo {
 
     private String      m_fileName;
     private byte        m_type;
@@ -12,9 +11,7 @@ public class DatFileInfo
     private int         m_offset;
     private IFileSource m_source;
 
-    public DatFileInfo(String mFileName, byte mType, int mRealSize,
-            int mPackedSize, int mOffset, IFileSource src)
-    {
+    public DatFileInfo(String mFileName, byte mType, int mRealSize, int mPackedSize, int mOffset, IFileSource src) {
         m_fileName = mFileName.toLowerCase();
         m_type = mType;
         m_realSize = mRealSize;
@@ -23,38 +20,31 @@ public class DatFileInfo
         m_source = src;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return m_fileName;
     }
 
-    public int getSize()
-    {
+    public int getSize() {
         return getRealSize();
     }
 
-    public int getRealSize()
-    {
+    public int getRealSize() {
         return m_realSize;
     }
 
-    public int getPackedSize()
-    {
+    public int getPackedSize() {
         return m_packedSize;
     }
 
-    public int getOffset()
-    {
+    public int getOffset() {
         return m_offset;
     }
 
-    public byte getType()
-    {
+    public byte getType() {
         return m_type;
     }
 
-    public IFileSource getSource()
-    {
+    public IFileSource getSource() {
         return m_source;
     }
 }

@@ -3,36 +3,29 @@ package fdk.lst;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class ArtMaker implements IEntryMaker
-{
+public class ArtMaker implements IEntryMaker {
 
-    static public class CritterEntry extends BasicEntryMaker.Entry
-    {
+    static public class CritterEntry extends BasicEntryMaker.Entry {
 
-        public CritterEntry(String val, int idx)
-        {
+        public CritterEntry(String val, int idx) {
             super(val, idx);
         }
 
         @Override
-        public String getValue()
-        {
+        public String getValue() {
             return getContent().replaceFirst(",.*", "") + "aa.frm";
         }
 
     }
 
-    static public class HeadEntry extends BasicEntryMaker.Entry
-    {
+    static public class HeadEntry extends BasicEntryMaker.Entry {
 
-        public HeadEntry(String val, int idx)
-        {
+        public HeadEntry(String val, int idx) {
             super(val, idx);
         }
 
         @Override
-        public String getValue()
-        {
+        public String getValue() {
             return getContent().replaceFirst(",.*", "") + "bf1.frm";
         }
 
@@ -40,19 +33,15 @@ public class ArtMaker implements IEntryMaker
 
     private int m_type = 0;
 
-    public ArtMaker(String type)
-    {
+    public ArtMaker(String type) {
         if (type.equalsIgnoreCase("critters"))
             m_type = 1;
-        else if (type.equalsIgnoreCase("heads"))
-            m_type = 2;
+        else if (type.equalsIgnoreCase("heads")) m_type = 2;
     }
 
     @Override
-    public IEntry create(int index, BufferedReader reader) throws IOException
-    {
-        if (!reader.ready())
-            return null;
+    public IEntry create(int index, BufferedReader reader) throws IOException {
+        if (!reader.ready()) return null;
 
         IEntry ent;
         switch (m_type) {

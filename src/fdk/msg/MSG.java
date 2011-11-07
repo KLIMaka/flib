@@ -41,8 +41,7 @@ import fdk.util.Utils;
  * 
  * @author KLIMaka
  */
-public class MSG
-{
+public class MSG {
 
     /**
      * Список записей, расположенных в том порядке, в котором они размещаются в
@@ -65,59 +64,51 @@ public class MSG
      * @throws IOException
      *             при ошибках чтения из потока
      * @throws WrongMsgEncoding
-     *             при невозможности декодирования данных из
-     *             входного потока с использованием указанной кодировки
+     *             при невозможности декодирования данных из входного потока с
+     *             использованием указанной кодировки
      */
-    public MSG(InputStream stream, Charset encoding) throws IOException, WrongMsgEncoding
-    {
+    public MSG(InputStream stream, Charset encoding) throws IOException, WrongMsgEncoding {
         read(stream, encoding);
     }
 
     /**
      * Создает пустой MSG файл.
      */
-    public MSG()
-    {
-    }
+    public MSG() {}
 
     /**
      * Читает из потока данные MSG файла с указанной кодировкой.
      * 
      * Байты потока декодируются в UTF-16 в соответствии с выбранной кодировкой.
-     * При невозможности интерпретировать номер
-     * записи как целое - эта запись не добавляется в список записей. Для
-     * добавления записей использует {@link #put(MsgEntry)}
+     * При невозможности интерпретировать номер записи как целое - эта запись не
+     * добавляется в список записей. Для добавления записей использует
+     * {@link #put(MsgEntry)}
      * 
      * @param in
      *            входной поток
      * @throws IOException
      *             при ошибках чтения из потока
      * @throws WrongMsgEncoding
-     *             при невозможности декодирования данных из
-     *             входного потока с использованием указанной кодировки
+     *             при невозможности декодирования данных из входного потока с
+     *             использованием указанной кодировки
      */
-    public void read(InputStream in, Charset encoding) throws IOException, WrongMsgEncoding
-    {
+    public void read(InputStream in, Charset encoding) throws IOException, WrongMsgEncoding {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Utils.copyStrream(in, out);
         ByteBuffer buf = ByteBuffer.wrap(out.toByteArray());
         CharsetDecoder cd = encoding.newDecoder();
         CharBuffer cb = null;
 
-        try
-        {
+        try {
             cb = cd.decode(buf);
-        }
-        catch (UnmappableCharacterException e)
-        {
+        } catch (UnmappableCharacterException e) {
             throw new WrongMsgEncoding("Unable to read with current encoding (" + encoding + ")");
         }
 
         Pattern p = Pattern
                 .compile("([^\\{]*)\\{([^\\}]*)\\}[^\\{]*\\{([^\\}]*)\\}[^\\{]*\\{([^\\}]*)\\}([^\\}\\r?\\n]*)?(\\r?\\n)?");
         Matcher matcher = p.matcher(cb);
-        while (matcher.find())
-        {
+        while (matcher.find()) {
             String precomment = matcher.group(1);
             String number = matcher.group(2);
             String anim = matcher.group(3);
@@ -125,12 +116,9 @@ public class MSG
             String postcomment = matcher.group(5);
 
             int num = 0;
-            try
-            {
+            try {
                 num = new Integer(number);
-            }
-            catch (NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 continue;
             }
 
@@ -152,8 +140,7 @@ public class MSG
      *             при невозможности декодирования данных из входного потока с
      *             использованием указанной кодировки
      */
-    public void read(InputStream in) throws IOException, WrongMsgEncoding
-    {
+    public void read(InputStream in) throws IOException, WrongMsgEncoding {
         read(in, Charset.defaultCharset());
     }
 
@@ -171,20 +158,16 @@ public class MSG
      *             при невозможности кодировать исходный текст в заданную
      *             кодировку
      */
-    public void write(OutputStream out, Charset encoding) throws IOException, WrongMsgEncoding
-    {
+    public void write(OutputStream out, Charset encoding) throws IOException, WrongMsgEncoding {
         StringBuilder str = new StringBuilder();
         for (MsgEntry rec : m_list)
             str.append(rec + "\r\n");
 
         CharsetEncoder encoder = encoding.newEncoder();
         ByteBuffer buf = null;
-        try
-        {
+        try {
             buf = encoder.encode(CharBuffer.wrap(str));
-        }
-        catch (CharacterCodingException e)
-        {
+        } catch (CharacterCodingException e) {
             throw new WrongMsgEncoding("Unable to write with current encoding (" + encoding + ")");
         }
 
@@ -203,8 +186,7 @@ public class MSG
      *             при невозможности кодировать исходный текст в заданную
      *             кодировку
      */
-    public void write(OutputStream out) throws IOException, WrongMsgEncoding
-    {
+    public void write(OutputStream out) throws IOException, WrongMsgEncoding {
         write(out, Charset.defaultCharset());
     }
 
@@ -216,8 +198,7 @@ public class MSG
      * @return искомое сообщение, или null, если сообщения с таким номером не
      *         существует
      */
-    public MsgEntry get(int num)
-    {
+    public MsgEntry get(int num) {
         return m_map.get(num);
     }
 
@@ -240,8 +221,7 @@ public class MSG
      * @param msg
      *            добавляемое сообщение
      */
-    public void put(MsgEntry msg)
-    {
+    public void put(MsgEntry msg) {
         m_list.add(msg);
         m_map.put(msg.getNumber(), msg);
     }
@@ -257,17 +237,14 @@ public class MSG
      * @return сообщение ассоциированое с данным номером после удаления, или
      *         <code>null</code> если такого сообщения нет
      */
-    public MsgEntry remove(int num)
-    {
+    public MsgEntry remove(int num) {
         MsgEntry msg = get(num);
         m_list.remove(msg);
         m_map.remove(num);
 
         MsgEntry ret = null;
-        for (MsgEntry rec : m_list)
-        {
-            if (rec.getNumber() == num)
-                m_map.put(num, rec);
+        for (MsgEntry rec : m_list) {
+            if (rec.getNumber() == num) m_map.put(num, rec);
         }
         return ret;
 

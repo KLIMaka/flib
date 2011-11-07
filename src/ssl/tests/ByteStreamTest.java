@@ -14,12 +14,10 @@ import ssl.codegen.MultiMark;
 import ssl.codegen.Node;
 import ssl.generator.OP;
 
-public class ByteStreamTest
-{
+public class ByteStreamTest {
 
     @Test
-    public void testByteStreamInt()
-    {
+    public void testByteStreamInt() {
         ByteStream stream = new ByteStream(2);
         stream.writeShort((short) 0x1234);
         stream.writeByte((byte) 0x00);
@@ -29,8 +27,7 @@ public class ByteStreamTest
     }
 
     @Test
-    public void testByteStream()
-    {
+    public void testByteStream() {
         ByteStream stream = new ByteStream();
         stream.writeBytes(new byte[512]);
         stream.writeByte((byte) 0x00);
@@ -41,8 +38,7 @@ public class ByteStreamTest
     }
 
     @Test
-    public void testWriteByte()
-    {
+    public void testWriteByte() {
         ByteStream stream = new ByteStream();
         stream.writeByte((byte) 0);
         stream.writeByte((byte) 1);
@@ -58,8 +54,7 @@ public class ByteStreamTest
     }
 
     @Test
-    public void testWriteShort()
-    {
+    public void testWriteShort() {
         ByteStream stream = new ByteStream();
         stream.writeShort((short) 0x1234);
 
@@ -69,8 +64,7 @@ public class ByteStreamTest
     }
 
     @Test
-    public void testWriteInt()
-    {
+    public void testWriteInt() {
         ByteStream stream = new ByteStream();
         stream.writeInt(0x12345678);
 
@@ -82,8 +76,7 @@ public class ByteStreamTest
     }
 
     @Test
-    public void testWriteFlaot()
-    {
+    public void testWriteFlaot() {
         float val = 1234.5678f;
         ByteStream stream = new ByteStream();
         stream.writeFlaot(val);
@@ -102,8 +95,7 @@ public class ByteStreamTest
     }
 
     @Test
-    public void testWriteBytes()
-    {
+    public void testWriteBytes() {
         byte[] bytes = { 1, 2, 3, 4 };
         ByteStream stream = new ByteStream();
         stream.writeBytes(bytes);
@@ -116,8 +108,7 @@ public class ByteStreamTest
     }
 
     @Test
-    public void testMark()
-    {
+    public void testMark() {
         ByteStream stream = new ByteStream();
         Mark mark = stream.mark();
         stream.writeFlaot(12.34f);
@@ -129,8 +120,7 @@ public class ByteStreamTest
     }
 
     @Test
-    public void testPatchMarkT()
-    {
+    public void testPatchMarkT() {
         ByteStream stream = new ByteStream();
         stream.writeByte((byte) 0);
         Mark mark = stream.mark();
@@ -146,8 +136,7 @@ public class ByteStreamTest
     }
 
     @Test
-    public void testPatchMultiMarkT()
-    {
+    public void testPatchMultiMarkT() {
         ByteStream stream = new ByteStream();
         stream.writeByte((byte) 0);
         MultiMark mark = new MultiMark(stream.mark());
@@ -169,8 +158,7 @@ public class ByteStreamTest
     }
 
     @Test
-    public void testGetSize()
-    {
+    public void testGetSize() {
         ByteStream stream = new ByteStream();
         stream.writeBytes(new byte[1024]);
         ByteStream stream2 = new ByteStream(12);
@@ -181,8 +169,7 @@ public class ByteStreamTest
     }
 
     @Test
-    public void testGetBytes()
-    {
+    public void testGetBytes() {
         ByteStream stream = new ByteStream();
         stream.writeInt(0x12345678);
         byte[] orig = { 0x12, 0x34, 0x56, 0x78 };
@@ -197,8 +184,7 @@ public class ByteStreamTest
     }
 
     @Test
-    public void testLabels()
-    {
+    public void testLabels() {
         ByteStream stream1 = new ByteStream();
         ByteStream stream2 = new ByteStream();
 
@@ -208,24 +194,20 @@ public class ByteStreamTest
         stream2.writeInt(0x0);
         stream1.writeLabel(stream2.getLabel());
 
-        byte[] orig1 = { (byte) 0x80, 0x12, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                0x00, 0x00 };
+        byte[] orig1 = { (byte) 0x80, 0x12, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
         assertArrayEquals(stream1.getBytes(), orig1);
 
         stream2.writeLabels(0);
-        byte[] orig = { (byte) 0x80, 0x12, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00,
-                0x00, 0x08 };
+        byte[] orig = { (byte) 0x80, 0x12, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x08 };
         assertArrayEquals(stream1.getBytes(), orig);
     }
 
-    public Node newNode()
-    {
+    public Node newNode() {
         return new Node(new ByteStream());
     }
 
     @Test
-    public void testNodes()
-    {
+    public void testNodes() {
 
         int size = new Random().nextInt(8096);
 
@@ -248,17 +230,14 @@ public class ByteStreamTest
         code = next;
 
         int addr = 0;
-        for (ByteStream node : code.getHead())
-        {
+        for (ByteStream node : code.getHead()) {
             node.writeLabels(addr);
             addr += node.getSize();
         }
 
         int k = size * 3 + 8;
-        int f = (if_expr.get().getBytes()[3] & 0xff)
-                + (if_expr.get().getBytes()[2] << 8)
-                + (if_expr.get().getBytes()[1] << 16)
-                + (if_expr.get().getBytes()[0] << 24);
+        int f = (if_expr.get().getBytes()[3] & 0xff) + (if_expr.get().getBytes()[2] << 8)
+                + (if_expr.get().getBytes()[1] << 16) + (if_expr.get().getBytes()[0] << 24);
 
         assertEquals(k, f);
 

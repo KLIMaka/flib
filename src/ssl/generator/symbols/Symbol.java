@@ -2,11 +2,9 @@ package ssl.generator.symbols;
 
 import ssl.codegen.ByteStream;
 
-public abstract class Symbol
-{
+public abstract class Symbol {
 
-    public enum Type
-    {
+    public enum Type {
         NONE, IMPORTED, EXPORTED
     }
 

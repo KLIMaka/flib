@@ -1,7 +1,6 @@
 package fdk.fs;
 
-public interface IFileEntry
-{
+public interface IFileEntry {
 
     public String getName();
 
