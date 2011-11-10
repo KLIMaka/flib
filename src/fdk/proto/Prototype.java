@@ -251,7 +251,7 @@ public class Prototype {
         byte[] buf = new byte[512];
         int len = 0;
         int off = 0;
-        while ((len = in.read(buf, off, 256 - off)) != -1)
+        while ((len = in.read(buf, off, 512 - off)) != -1)
             off += len;
 
         m_buffer = ByteBuffer.wrap(buf, 0, off);
