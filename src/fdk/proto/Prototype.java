@@ -277,4 +277,8 @@ public class Prototype {
         os.write(m_buffer.array());
     }
 
+    public int getType() {
+        return (get(PROTO_ID) >> 24) & 0x0f;
+    }
+
 }
