@@ -1,14 +1,13 @@
 package fdk.fs;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 public interface IFileSource {
 
-    public InputStream getFile(String fname) throws IOException;
+	public InputStream getFile(String fname) throws IOException;
 
-    public InputStream getFile(IFileEntry fent) throws IOException;
+	public InputStream getFile(IFileEntry fent) throws IOException;
 
-    public IFileEntry getRoot();
+	public IFileEntry getRoot();
 
 }

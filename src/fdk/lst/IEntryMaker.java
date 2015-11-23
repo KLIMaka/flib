@@ -1,8 +1,7 @@
 package fdk.lst;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 
 public interface IEntryMaker {
-    public abstract IEntry create(int index, BufferedReader reader) throws IOException;
+	public abstract IEntry create(int index, BufferedReader reader) throws IOException;
 }

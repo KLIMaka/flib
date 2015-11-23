@@ -1,12 +1,11 @@
 package fdk.lst;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
 
 public interface IEntry {
-    public abstract String getValue();
+	public abstract String getValue();
 
-    public abstract int getIndex();
+	public abstract int getIndex();
 
-    public abstract void write(BufferedWriter bw) throws IOException;
+	public abstract void write(BufferedWriter bw) throws IOException;
 }
